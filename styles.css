@@ -1,0 +1,44 @@
+
+  
+  .popup-header {
+	background-color: #f0f0f0;
+	padding: 10px;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+  }
+  
+  .title {
+	font-size: 18px;
+	margin: 0;
+  }
+  
+  .popup-content {
+	padding: 10px;
+  }
+  
+.draw-btn, .erase-btn {
+	display: block;
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 8px;
+	font-size: 14px;
+	cursor: pointer;
+  }
+
+
+  /* If the draw button is active */
+
+  .draw-btn.active{
+	background-color: green;
+  }
+  
+  .thickness-slider, .color-picker {
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 8px;
+	/* height: 50px;  */
+  }
+  
+  .color-picker{
+	height: 50px; 
+  }

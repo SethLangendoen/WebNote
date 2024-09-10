@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebNote Extension</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="popup-container">
+    <div class="popup-header">
+      <h2 class="title">WebNote</h2>
+    </div>
+    <div class="popup-content">
+      <!-- <button class="display-notes-btn">Display Current Notes</button> -->
+      <div class="drawing-options">
+        <button class="draw-btn">Draw</button>
+        <button class="erase-btn">Erase</button>
+        <input type="range" min="1" max="10" class="thickness-slider">
+        <input type="color" class="color-picker">
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
