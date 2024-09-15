@@ -17,6 +17,15 @@
 		"matches": ["<all_urls>"],
 		"js": ["contentScript.js"]
 	  }
-	]
+	],
+	"commands": {
+		"reopen-extension": {
+		  "suggested_key": {
+			"default": "Ctrl+Shift+D",
+			"mac": "Command+Shift+D"
+		  },
+		  "description": "Reopen the drawing extension"
+		}
+	  }
   }
   

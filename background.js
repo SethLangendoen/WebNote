@@ -30,3 +30,30 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	}
   });
   
+
+
+  // command to re-open the chrome extension
+  chrome.commands.onCommand.addListener((command) => {
+	if (command === "reopen-extension") {
+	  chrome.windows.getAll({populate: true}, (windows) => {
+		let extensionWindow = windows.find((win) => {
+		  // Check if the window is the extension's popup
+		  return win.tabs.some(tab => tab.url.includes("popup.html"));
+		});
+  
+		if (extensionWindow) {
+		  // If extension window is found, focus it
+		  chrome.windows.update(extensionWindow.id, { focused: true });
+		} else {
+		  // If the extension popup is not open, create a new one
+		  chrome.windows.create({
+			url: chrome.runtime.getURL("popup.html"),
+			type: "popup",
+			width: 400,
+			height: 400
+		  });
+		}
+	  });
+	}
+  });
+  

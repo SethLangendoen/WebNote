@@ -7,21 +7,70 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="popup-container">
-    <div class="popup-header">
-      <h2 class="title">WebNote</h2>
-    </div>
-    <div class="popup-content">
-      <!-- <button class="display-notes-btn">Display Current Notes</button> -->
-      <div class="drawing-options">
-        <button class="draw-btn">Draw</button>
-        <button class="erase-btn">Erase</button>
-        <input type="range" min="1" max="10" class="thickness-slider">
-        <input type="color" class="color-picker">
-      </div>
-    </div>
-  </div>
+	<div class="popup-container">
+		<div class="popup-header">
+		  <h2 class="title">WebNote</h2>
+		  <button class = "minimize-btn">^</button>
+		  <button class="close-btn">X</button> <!-- Close button -->
+		</div>
+		
+		<div class="popup-content">
+		  <!-- Drawing Options -->
+		  <div class="drawing-options">
+			
+			<div id = 'drawingOptions'>
+				<button class="draw-btn" class = "optionContainer" title = 'Drawing tool'><img src = './Assets/pencil.png' class = 'setttingImg'></button>
+				<button class="erase-btn" class = "optionContainer" title = 'Erasing tool'><img src = './Assets/eraser.png' class = 'setttingImg'></button>
+				<button class ='highlight-btn' class = "optionContainer" title = 'Highlighting tool'><img src = './Assets/marker.png' class = 'setttingImg'></button>
+				<button class ='text-btn' class = "optionContainer" title = 'Create Text'><img src = './Assets/text.png' class = 'setttingImg'></button>
+				<button class ='preset-btn' class = "optionContainer" title = 'Save tool'><img src = './Assets/save-instagram.png' class = 'setttingImg'></button>
+			</div>
 
+			<div id = 'savedPresets'>
+				<p id = 'savedText'>Saved tools</p>
+
+			</div>
+
+			<!-- Slider for drawing thickness -->
+			<div class="thickness-slider-container">
+			  <span class="slider-label">Stroke Size</span>
+			  <input type="range" min="1" max="100" value = '10' class="thickness-slider">
+			</div>
+	  
+			<!-- Slider for eraser size -->
+			<div class="eraser-slider-container">
+			  <span class="slider-label">Eraser Size</span>
+			  <input type="range" min="1" max="100" value = '10' class="eraser-slider">
+			</div>
+
+			<!-- Slider for eraser size -->
+			<div class="highlight-slider-container">
+			  <span class="slider-label">Highlight Opacity</span>
+			  <input type="range" min="0" max=".6" value = '0.10' step = '0.01' class="highlight-slider">
+			</div>
+
+			<div class = 'colorSelector'>   
+				<span class="slider-label">Drawing color </span>
+				<input type = 'color' class = color-picker>
+			</div>
+
+			<div class = 'highlightSelector'>
+				<span class="slider-label">Highlight color</span>
+				<input type = 'color' value = '#FFFF00' class = highlight-picker>
+			</div>
+	  
+			<!-- Clear all drawings button -->
+			<div id = "actionButtons">
+				<button onclick="undo()" title = 'Undo'><img src = './Assets/undo-circular-arrow.png' class = 'actionImg'></button>
+				<button onclick="redo()" title = 'Redo'><img src = './Assets/redo-arrow-symbol.png' class = 'actionImg'></button>
+				<button class="clear-btn" title = 'Delete all'><img src = './Assets/trash-can.png' class = 'actionImg'></button>
+				<button class="screenshot-btn" title = 'Screenshot'><img src = './Assets/screenshot-icon.png' class = 'actionImg'></button>
+			</div>
+
+
+		  </div>
+		</div>
+	  </div>
   <script src="popup.js"></script>
 </body>
 </html>
