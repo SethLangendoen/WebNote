@@ -28,6 +28,8 @@ body {
 	justify-content: space-between;
 	align-items: center;
 	color: #00C6FF;
+	margin-top: none;
+	margin-bottom: none; 
   }
   
   .title {
@@ -70,6 +72,12 @@ body {
   }
 
   .highlight-slider-container{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  }
+
+  .font-slider-container{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

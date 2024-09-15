@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+	<!-- <div style="position:fixed; top:10%; right:10%; width:400px; height:300px; z-index:1000; background-color:#fff; border:1px solid #000;">
+		<iframe  width="100%" height="100%" style="border:none;"></iframe>
+	</div> -->
+
+
 	<div class="popup-container">
 		<div class="popup-header">
 		  <h2 class="title">WebNote</h2>
@@ -49,6 +54,12 @@
 			  <input type="range" min="0" max=".6" value = '0.10' step = '0.01' class="highlight-slider">
 			</div>
 
+			<!-- Slider for text size -->
+			<div class="font-slider-container">
+			  <span class="slider-label">Font Size</span>
+			  <input type="range" min="1" max="100" value = '10' class="font-slider">
+			</div>
+
 			<div class = 'colorSelector'>   
 				<span class="slider-label">Drawing color </span>
 				<input type = 'color' class = color-picker>
@@ -67,10 +78,35 @@
 				<button class="screenshot-btn" title = 'Screenshot'><img src = './Assets/screenshot-icon.png' class = 'actionImg'></button>
 			</div>
 
+			<!-- <button class="restore-notes-btn" onclick="restoreCanvasState()">Restore Notes</button> -->
+			<div>
+
+
+			<!-- <button class="restore-notes-btn">Save Note</button>
+			<input type = 'text' /> -->
+
+
+			<button class="restore-notes-btn">Restore Note</button>
+			<!-- <form>
+
+				<input type="radio" id="option1" name="option" value="Option 1">
+				<label for="option1">Option 1</label><br>
+				<input type="radio" id="option2" name="option" value="Option 2">
+				<label for="option2">Option 2</label><br>
+				<input type="radio" id="option3" name="option" value="Option 3">
+				<label for="option3">Option 3</label>
+			  </form>
+			   -->
+			  
+			</div>
+			<!-- include two or three spots for different canvases to reload, canvases are deletable. -->
+
 
 		  </div>
 		</div>
 	  </div>
   <script src="popup.js"></script>
+  <script src="contentScript.js"></script>
+
 </body>
 </html>

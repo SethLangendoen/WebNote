@@ -7,8 +7,96 @@ let ctx = null;
 let lineThickness = 10;
 let lineColor = '#000000';
 let eraserSize = 10;
+let fontSize = 10; 
 let highlightColor = '#FFFF00'; 
 let highlightOpacity = 0.5; 
+
+
+
+// // Create a new div element
+// const redSquare = document.createElement('div');
+
+// // Style the div to be a red square
+// redSquare.style.width = '400px'; // Adjusted size to fit popup content
+// redSquare.style.height = '600px'; // Adjusted size to fit popup content
+// redSquare.style.backgroundColor = 'red';
+// redSquare.style.position = 'fixed'; // Keep it fixed to the screen
+// redSquare.style.top = '20px';
+// redSquare.style.left = '20px';
+// redSquare.style.zIndex = '100000000000'; // Ensure it's on top of other elements
+// redSquare.style.overflow = 'auto'; // Allow scrolling in case content overflows
+
+// // Add your HTML structure to the redSquare
+// redSquare.innerHTML = `
+//   <div class="popup-container">
+//     <div class="popup-header">
+//       <h2 class="title">WebNote</h2>
+//       <button class="minimize-btn">^</button>
+//       <button class="close-btn">X</button>
+//     </div>
+
+//     <div class="popup-content">
+//       <div class="drawing-options">
+//         <div id="drawingOptions">
+//           <button class="draw-btn optionContainer" title="Drawing tool"><img src="./Assets/pencil.png" class="setttingImg"></button>
+//           <button class="erase-btn optionContainer" title="Erasing tool"><img src="./Assets/eraser.png" class="setttingImg"></button>
+//           <button class="highlight-btn optionContainer" title="Highlighting tool"><img src="./Assets/marker.png" class="setttingImg"></button>
+//           <button class="text-btn optionContainer" title="Create Text"><img src="./Assets/text.png" class="setttingImg"></button>
+//           <button class="preset-btn optionContainer" title="Save tool"><img src="./Assets/save-instagram.png" class="setttingImg"></button>
+//         </div>
+
+//         <div id="savedPresets">
+//           <p id="savedText">Saved tools</p>
+//         </div>
+
+//         <div class="thickness-slider-container">
+//           <span class="slider-label">Stroke Size</span>
+//           <input type="range" min="1" max="100" value="10" class="thickness-slider">
+//         </div>
+
+//         <div class="eraser-slider-container">
+//           <span class="slider-label">Eraser Size</span>
+//           <input type="range" min="1" max="100" value="10" class="eraser-slider">
+//         </div>
+
+//         <div class="highlight-slider-container">
+//           <span class="slider-label">Highlight Opacity</span>
+//           <input type="range" min="0" max=".6" value="0.10" step="0.01" class="highlight-slider">
+//         </div>
+
+//         <div class="font-slider-container">
+//           <span class="slider-label">Font Size</span>
+//           <input type="range" min="1" max="100" value="10" class="font-slider">
+//         </div>
+
+//         <div class="colorSelector">
+//           <span class="slider-label">Drawing color</span>
+//           <input type="color" class="color-picker">
+//         </div>
+
+//         <div class="highlightSelector">
+//           <span class="slider-label">Highlight color</span>
+//           <input type="color" value="#FFFF00" class="highlight-picker">
+//         </div>
+
+//         <div id="actionButtons">
+//           <button onclick="undo()" title="Undo"><img src="./Assets/undo-circular-arrow.png" class="actionImg"></button>
+//           <button onclick="redo()" title="Redo"><img src="./Assets/redo-arrow-symbol.png" class="actionImg"></button>
+//           <button class="clear-btn" title="Delete all"><img src="./Assets/trash-can.png" class="actionImg"></button>
+//           <button class="screenshot-btn" title="Screenshot"><img src="./Assets/screenshot-icon.png" class="actionImg"></button>
+//         </div>
+
+//         <div>
+//           <button class="restore-notes-btn">Restore Note</button>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// `;
+
+// Append the red square to the body as a child
+// document.body.appendChild(redSquare);
+
 
 
 // for closing the window: 
@@ -20,6 +108,81 @@ function closeWindow(){
     chrome.windows.remove(window.id);
 });
 }
+
+
+
+
+
+function applySettings() {
+  // Retrieve settings from localStorage
+  const settings = localStorage.getItem('drawingSettings');
+  
+  if (settings) {
+    const {
+      isHighlightingMode = false,
+      isDrawingMode = false,
+      isErasingMode = false,
+      eraserMode = 'continuous',
+      lineThickness = 10,
+      lineColor = '#000000',
+      eraserSize = 10,
+      fontSize = 10,
+      highlightColor = '#FFFF00',
+      highlightOpacity = 0.5
+    } = JSON.parse(settings);
+    
+    // Apply settings to the UI elements
+    const drawBtn = document.querySelector('.draw-btn');
+    const eraseBtn = document.querySelector('.erase-btn');
+    const clearBtn = document.querySelector('.clear-btn'); 
+    const thicknessSlider = document.querySelector('.thickness-slider');
+    const eraserSlider = document.querySelector('.eraser-slider'); 
+    const colorPicker = document.querySelector('.color-picker');
+    const screenshotButton = document.querySelector('.screenshot-btn'); 
+    const highlightButton = document.querySelector('.highlight-btn'); 
+    const highlightColorPicker = document.querySelector('.highlight-picker'); 
+    const highlightOpacitySlider = document.querySelector('.highlight-slider'); 
+    const textBtn = document.querySelector('.text-btn'); 
+    const closeWindowBtn = document.querySelector('.close-btn'); 
+    const minimizeBtn = document.querySelector('.minimize-btn'); 
+    const containingDiv = document.querySelector('.popup-container'); 
+    const popupContentDiv = document.querySelector('.popup-content'); 
+    // add font size
+
+    // Set the state of buttons and sliders based on settings
+    drawBtn.classList.toggle('active', isDrawingMode);
+    eraseBtn.classList.toggle('active', isErasingMode);
+    highlightButton.classList.toggle('active', isHighlightingMode);
+    textBtn.classList.toggle('active', isTextMode);
+
+    thicknessSlider.value = lineThickness;
+    eraserSlider.value = eraserSize;
+    colorPicker.value = lineColor;
+    highlightColorPicker.value = highlightColor;
+    highlightOpacitySlider.value = highlightOpacity;
+
+    // Optionally apply styles or classes to other elements based on settings
+    if (isDrawingMode) {
+      // Apply styles or activate drawing mode
+    }
+
+    if (isErasingMode) {
+      // Apply styles or activate erasing mode
+    }
+
+    if (isHighlightingMode) {
+      // Apply styles or activate highlighting mode
+    }
+
+    // Add any additional logic to apply settings to other parts of the UI
+  } else {
+    // Handle the case where no settings are saved (optional)
+    console.log('No settings found in localStorage');
+  }
+}
+
+
+
 
 // -------------------------------- for the text: 
 let isTextMode = false;
@@ -50,8 +213,8 @@ function toggleCreateText() {
 
 // Function to draw text on the canvas, triggers on blur. 
 function drawText(text, x, y) {
-  ctx.font = '20px Arial'; // Adjust font size as needed
-  ctx.fillStyle = 'black'; // Adjust text color as needed
+  ctx.font = `${fontSize}px Arial`; // Adjust font size as needed
+  ctx.fillstyle = lineColor;
   ctx.textAlign = 'left';
   ctx.textBaseline = 'top';
   ctx.fillText(text, x, y);
@@ -72,13 +235,14 @@ function handleCanvasClick(event) {
   textInput = document.createElement('input');
   textInput.type = 'text';
   textInput.style.position = 'absolute';
+  textInput.style.color = `${lineColor}`;
   textInput.style.top = `${textY}px`;
   textInput.style.left = `${textX}px`;
   textInput.style.zIndex = '100000';
   textInput.style.background = 'transparent';
   textInput.style.border= '1px solid black';
   textInput.style.outline = 'none';
-  textInput.style.fontSize = '20px'; // Adjust font size as needed
+  textInput.style.fontSize = `${fontSize}px`; // Adjust font size as needed
   textInput.focus();
 
   textInput.addEventListener('blur', () => {
@@ -116,7 +280,7 @@ function handleCanvasClick(event) {
 
 // Initialize canvas and other functions
 function initializeCanvas() {
-  // loadSettings();
+  loadSettings();
   canvas = document.createElement('canvas');
   canvas.style.position = 'absolute';
   canvas.style.top = '0';
@@ -338,46 +502,99 @@ window.addEventListener('resize', updateCanvasSize);
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.command === 'toggleDrawing') {
     toggleDrawingMode();
+    saveSettings();
     sendResponse({ status: 'success' });
+
+  } else if (message.command === 'applySettings') {
+    console.log('applyingSetting'); 
+    applySettings(); 
+    sendResponse({ status: 'success' });
+
   } else if (message.command === 'toggleErasing') {
     toggleErasingMode();
+    saveSettings();
     sendResponse({ status: 'success' });
+
   } else if (message.command === 'createText') {
+    lineColor = message.value; 
     toggleCreateText();
+    saveSettings();
+
     sendResponse({ status: 'success' });
+
   } else if (message.command === 'setLineThickness') {
     lineThickness = message.value;
-    // saveSettings();
+    saveSettings();
+    saveCanvasState()
     sendResponse({ status: 'success' });
+
   } else if (message.command === 'setEraserSize') {
     eraserSize = message.value;
-    // saveSettings();
+    saveSettings();
+    saveCanvasState()
     sendResponse({ status: 'success' });
-  } else if (message.command === 'setLineColor') {
+
+  } else if (message.command === 'setFontSize') {
+    fontSize = message.value;
+    saveSettings();
+    saveCanvasState()
+    sendResponse({ status: 'success' });
+
+  } 
+  
+  else if (message.command === 'setLineColor') {
     lineColor = message.value;
-    // saveSettings();
+    console.log('setting line color'); 
+    saveSettings();
+    saveCanvasState()
     sendResponse({ status: 'success' });
+
   } else if (message.command === 'clearCanvas') {
     clearCanvas();
+    saveCanvasState()
     sendResponse({ status: 'success' });
+
   } else if (message.command === 'takeScreenshot') {
     takeScreenshot(); 
+    saveCanvasState()
     sendResponse({status: 'success'}); 
+
   }  else if (message.command === 'setHighlightColor') {
     highlightColor = message.value; 
+    saveSettings();
+    saveCanvasState()
     sendResponse({status: 'success'}); 
+
   } else if (message.command === 'highlight') {
     toggleHighlightingMode(); 
+    saveSettings();
+    saveCanvasState()
     sendResponse({status: 'success'}); 
-  }  else if (message.command === 'setHighlightOpacity') {
+
+  } else if (message.command === 'restore') {
+    restoreCanvasState(); 
+    sendResponse({status: 'success'});
+
+  }
+  
+  else if (message.command === 'addPreset') {
+    const result = savePreset();
+    console.log('heard add preset'); 
+    sendResponse(result);
+    sendResponse({status: 'success'});
+  }
+  
+  else if (message.command === 'setHighlightOpacity') {
     highlightOpacity = message.value;
+    saveSettings();
+    saveCanvasState()
     sendResponse({ status: 'success' });
+
   } else if (message.command === 'closeWindow') {
     closeWindow(); 
     sendResponse({ status: 'success' });
   }
 });
-
 
 
 // instantiations of an action that's been performed containing 
@@ -472,3 +689,205 @@ function undo() {
     }
   }
 
+
+  // saving settings --------------------------------
+
+  function saveSettings() {
+    const settings = {
+      isHighlightingMode,
+      isDrawingMode,
+      isErasingMode,
+      eraserMode,
+      lineThickness,
+      lineColor,
+      eraserSize,
+      fontSize,
+      highlightColor,
+      highlightOpacity
+    };
+  
+    localStorage.setItem('drawingSettings', JSON.stringify(settings));
+    console.log('Settings saved.');
+  }
+
+  
+  function loadSettings() {
+    const settings = localStorage.getItem('drawingSettings');
+    
+
+    if (settings) {
+      // defaults if none found. 
+      const {
+        isHighlightingMode: loadedIsHighlightingMode = false,
+        isDrawingMode: loadedIsDrawingMode = false,
+        isErasingMode: loadedIsErasingMode = false,
+        eraserMode: loadedEraserMode = 'continuous',
+        lineThickness: loadedLineThickness = 10,
+        lineColor: loadedLineColor = '#000000',
+        eraserSize: loadedEraserSize = 10,
+        fontSize: loadedFontSize = 10,
+        highlightColor: loadedHighlightColor = '#FFFF00',
+        highlightOpacity: loadedHighlightOpacity = 0.5
+      } = JSON.parse(settings);
+  
+      isHighlightingMode = loadedIsHighlightingMode;
+      isDrawingMode = loadedIsDrawingMode;
+      isErasingMode = loadedIsErasingMode;
+      eraserMode = loadedEraserMode;
+      lineThickness = loadedLineThickness;
+      lineColor = loadedLineColor;
+      eraserSize = loadedEraserSize;
+      fontSize = loadedFontSize; 
+      highlightColor = loadedHighlightColor;
+      highlightOpacity = loadedHighlightOpacity;
+  
+      console.log('Settings loaded.');
+    } else {
+      console.log('No settings found in localStorage.');
+    }
+  }
+  
+
+  // saving and retrieving canvas: 
+
+  function saveCanvasState() {
+    if (canvas && ctx) {
+      const dataURL = canvas.toDataURL(); // Get the data URL of the canvas
+      localStorage.setItem('canvasState', dataURL); // Save to localStorage
+      console.log('Canvas state saved');
+    } else {
+      console.log('Canvas or context not available');
+    }
+  }
+  
+
+  function restoreCanvasState() {
+    const dataURL = localStorage.getItem('canvasState'); // Retrieve from localStorage
+    if (dataURL && canvas && ctx) {
+      const img = new Image();
+      img.onload = function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear existing content
+        ctx.drawImage(img, 0, 0); // Draw the saved image onto the canvas
+      };
+      img.src = dataURL;
+    } else {
+      console.log('No saved canvas state found or canvas/context not available');
+    }
+  }
+  
+
+
+  // --------- this is for saving preset tools: 
+
+  // Function to save the current tool and its properties as a preset
+function savePreset() {
+  // Capture the currently selected tool and its properties
+  const currentTool = getCurrentTool(); // This could be 'draw', 'erase', 'highlight', etc.
+  const strokeSize = document.querySelector('.thickness-slider').value; // Drawing stroke size
+  const eraserSize = document.querySelector('.eraser-slider').value; // Eraser size
+  const highlightOpacity = document.querySelector('.highlight-slider').value; // Highlight opacity
+  const fontSize = document.querySelector('.font-slider').value; // Font size
+  const lineColor = document.querySelector('.color-picker').value; // Drawing color
+  const highlightColor = document.querySelector('.highlight-picker').value; // Highlight color
+
+  // Create an object to store the current preset
+  const preset = {
+      tool: currentTool,
+      strokeSize: strokeSize,
+      eraserSize: eraserSize,
+      highlightOpacity: highlightOpacity,
+      fontSize: fontSize,
+      lineColor: lineColor,
+      highlightColor: highlightColor
+  };
+
+  // Append the preset to the popup container (inside the 'savedPresets' section)
+  const savedPresetsContainer = document.getElementById('savedPresets');
+
+  // Create a new preset div element
+  const presetDiv = document.createElement('div');
+  presetDiv.classList.add('preset-item');
+
+  // Set the content of the preset div to display the tool and its properties
+  presetDiv.textContent = `Tool: ${preset.tool}, Stroke Size: ${preset.strokeSize}, Eraser Size: ${preset.eraserSize}, Highlight Opacity: ${preset.highlightOpacity}, Font Size: ${preset.fontSize}, Color: ${preset.lineColor}`;
+
+  // Add an event listener to apply this preset when clicked
+  presetDiv.addEventListener('click', function () {
+      applyPreset(preset); // Function to apply the preset properties
+  });
+
+  // Append the preset div to the savedPresets container
+  savedPresetsContainer.appendChild(presetDiv);
+
+  // Send response back (if needed)
+  return { status: 'success' };
+}
+
+// Example function to get the current selected tool (replace with your own logic)
+function getCurrentTool() {
+  console.log(' in get tool'); 
+  // Return the currently selected tool (based on your app's current state)
+  // For example, if a draw button is active, return 'draw'
+  const drawBtn = document.querySelector('.draw-btn');
+  if (drawBtn.classList.contains('active')) return 'draw';
+
+  const eraseBtn = document.querySelector('.erase-btn');
+  if (eraseBtn.classList.contains('active')) return 'erase';
+
+  const highlightBtn = document.querySelector('.highlight-btn');
+  if (highlightBtn.classList.contains('active')) return 'highlight';
+
+  const textBtn = document.querySelector('.text-btn');
+  if (textBtn.classList.contains('active')) return 'text';
+
+  return 'none'; // Default fallback
+}
+
+// Function to apply the preset properties (when a saved preset is clicked)
+function applyPreset(preset) {
+  // Apply the properties from the preset
+  document.querySelector('.thickness-slider').value = preset.strokeSize;
+  document.querySelector('.eraser-slider').value = preset.eraserSize;
+  document.querySelector('.highlight-slider').value = preset.highlightOpacity;
+  document.querySelector('.font-slider').value = preset.fontSize;
+  document.querySelector('.color-picker').value = preset.lineColor;
+  document.querySelector('.highlight-picker').value = preset.highlightColor;
+
+  // Activate the corresponding tool (if needed)
+  activateTool(preset.tool);
+}
+
+// Example function to activate a tool based on the preset
+function activateTool(tool) {
+  document.querySelectorAll('.optionContainer').forEach(btn => {
+    // Remove 'active' class from all buttons to reset their state
+    btn.classList.remove('active');
+});
+
+// Add 'active' class to the correct tool based on the preset
+switch (tool) {
+    case 'draw':
+        document.querySelector('.draw-btn').classList.add('active');
+        break;
+    case 'erase':
+        document.querySelector('.erase-btn').classList.add('active');
+        break;
+    case 'highlight':
+        document.querySelector('.highlight-btn').classList.add('active');
+        break;
+    case 'text':
+        document.querySelector('.text-btn').classList.add('active');
+        break;
+    default:
+        console.log('Unknown tool');
+}
+}
+
+// Listen for the 'addPreset' command and trigger the savePreset function
+// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+// if (message.command === 'addPreset') {
+//     const result = savePreset();
+//     console.log('heard add preset'); 
+//     sendResponse(result);
+// }
+// });
