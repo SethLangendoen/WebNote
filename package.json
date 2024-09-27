@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fabric": "^6.4.2"
+    "fabric": "^6.4.2",
+    "html2canvas": "^1.4.1",
+    "interactjs": "^1.10.27",
+    "jspdf": "^2.5.2"
   }
 }

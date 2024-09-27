@@ -1,11 +1,18 @@
 {
 	"manifest_version": 3,
-	"name": "Drawing Extension",
+	"name": "EverNote",
 	"version": "1.0",
+	"description": "Draw and take notes directly on the web! Our sophisticated software allows users to save and reopen notes.",
+	"icons": {
+		"16": "./Assets/EverNoteLogo.png",
+		"48":  "./Assets/EverNoteLogo.png",
+		"128":  "./Assets/EverNoteLogo.png"
+	},
 	"permissions": [
 	  "activeTab", 
 	  "scripting",
-	  "storage"
+	  "storage",
+	  "windows"
 	],
 	"background": {
 	  "service_worker": "background.js" 
@@ -16,7 +23,8 @@
 	"content_scripts": [
 	  {
 		"matches": ["<all_urls>"],
-		"js": ["contentScript.js"]
+		"js": ["contentScript.js"],
+		"type": "module"
 	  }
 	],
 	"commands": {
@@ -28,5 +36,7 @@
 		  "description": "Reopen the drawing extension"
 		}
 	  }
+	  
+	  
   }
   

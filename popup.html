@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WebNote Extension</title>
   <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
 	<!-- <div style="position:fixed; top:10%; right:10%; width:400px; height:300px; z-index:1000; background-color:#fff; border:1px solid #000;">
@@ -13,10 +14,14 @@
 
 
 	<div class="popup-container">
+		<!-- <img src = './Assets/bbg.jpg' id = 'bgImg'> -->
+
 		<div class="popup-header">
-		  <h2 class="title">WebNote</h2>
-		  <button class = "minimize-btn">^</button>
-		  <button class="close-btn">X</button> <!-- Close button -->
+			
+		  <h2 id="title"><button class="theme-btn"><img src = './Assets/EverNoteLogo.png' id = 'logo'>EverNote</button></h2>
+		   
+		  <!-- <button class = "minimize-btn"><img src = './Assets/minimize.png' class = "windowOptions"></button> -->
+		  <button class="close-btn"><img src = './Assets/close.png' class = "windowOptions" id = 'x'></button> <!-- Close button -->
 		</div>
 		
 		<div class="popup-content">
@@ -24,80 +29,136 @@
 		  <div class="drawing-options">
 			
 			<div id = 'drawingOptions'>
-				<button class="draw-btn" class = "optionContainer" title = 'Drawing tool'><img src = './Assets/pencil.png' class = 'setttingImg'></button>
+				<button class ='cursor-btn' class = "optionContainer" title = 'Cursor '><img src = './Assets/cursor.png' class = 'setttingImg'></button>
+				<button class="draw-btn" class = "optionContainer" title = 'Drawing tool'><img src = './Assets/pencilImg.png' class = 'setttingImg'></button>
 				<button class="erase-btn" class = "optionContainer" title = 'Erasing tool'><img src = './Assets/eraser.png' class = 'setttingImg'></button>
 				<button class ='highlight-btn' class = "optionContainer" title = 'Highlighting tool'><img src = './Assets/marker.png' class = 'setttingImg'></button>
 				<button class ='text-btn' class = "optionContainer" title = 'Create Text'><img src = './Assets/text.png' class = 'setttingImg'></button>
 				<button class ='preset-btn' class = "optionContainer" title = 'Save tool'><img src = './Assets/save-instagram.png' class = 'setttingImg'></button>
+				<button class ='delete-tools-btn' class = "optionContainer" title = 'Delete all tools'><img id ='delete-wallet-img' src = './Assets/delTools.png' class = 'setttingImg'></button>
+
 			</div>
 
 			<div id = 'savedPresets'>
-				<p id = 'savedText'>Saved tools</p>
 
 			</div>
 
 			<!-- Slider for drawing thickness -->
 			<div class="thickness-slider-container">
-			  <span class="slider-label">Stroke Size</span>
-			  <input type="range" min="1" max="100" value = '10' class="thickness-slider">
+				<span class="slider-label">Stroke Size</span>
+				<span id="thicknessValue">1</span> <!-- Display the current value here -->
+				<input type="range" min="1" max="100" class="thickness-slider" id="thicknessSlider">
+			  </div>
+			  
+			  <div class="eraser-slider-container">
+				<span class="slider-label">Eraser Size</span>
+				<span id="eraserValue">1</span> <!-- Display the current value here -->
+				<input type="range" min="1" max="100" class="eraser-slider" id="eraserSlider">
+			  </div>
+			  
+			  <div class="highlight-slider-container">
+				<span class="slider-label">Opacity</span>
+				<span id="highlightValue">0</span> <!-- Display the current value here -->
+				<input type="range" min="0.01" max="0.1" step="0.005" class="highlight-slider" id="highlightSlider">
+			  </div>
+			  
+			  <div class="font-slider-container">
+				<span class="slider-label">Font Size</span>
+				<span id="fontValue">5</span> <!-- Display the current value here -->
+				<input type="range" min="8" max="50" class="font-slider" id="fontSlider">
+			  </div>
+			  
+
+			<!-- font selector -->
+			<!-- <div class="font-slider-container">
+				<label for="font-type" class="font-label">Font Type:</label>
+				<select id="font-type" class="font-selector">
+					<option value="Arial">Arial</option>
+					<option value="Verdana">Verdana</option>
+					<option value="Times New Roman">Times New Roman</option>
+					<option value="Courier New">Courier New</option>
+					<option value="Georgia">Georgia</option>
+				</select>
+			</div> -->
+
+			<div class="font-container">
+				<label for="font-type" class="font-label">Font Type:</label>
+				<select id="font-type" class="font-selector">
+					<option value="Arial">Arial</option>
+					<option value="Verdana">Verdana</option>
+					<option value="Times New Roman">Times New Roman</option>
+					<option value="Courier New">Courier New</option>
+					<option value="Georgia">Georgia</option>
+					<option value="Tahoma">Tahoma</option>
+					<option value="Trebuchet MS">Trebuchet MS</option>
+					<option value="Lucida Console">Lucida Console</option>
+					<option value="Comic Sans MS">Comic Sans MS</option>
+					<option value="Impact">Impact</option>
+					<option value="Segoe UI">Segoe UI</option>
+					<option value="Consolas">Consolas</option>
+					<option value="Garamond">Garamond</option>
+					<option value="Palatino Linotype">Palatino Linotype</option>
+					<!-- Add more font options as needed -->
+				</select>
+			</div>
+			
+
+			<div id = 'colorDiv'>
+				<div class = 'colorSelector'>
+					<img src = './Assets/pencilImg.png' class = 'logs'>
+					<input type = 'color' value = '#FF0000' class = color-picker id = 'drawColor'>
+				</div>
+				<div class = 'highlightSelector'>
+					<img src = './Assets/marker.png' class = 'logs'>
+					<input type = 'color' value = '#FFFF00' class = highlight-picker id = 'highlightColor'>
+				</div>
 			</div>
 	  
-			<!-- Slider for eraser size -->
-			<div class="eraser-slider-container">
-			  <span class="slider-label">Eraser Size</span>
-			  <input type="range" min="1" max="100" value = '10' class="eraser-slider">
-			</div>
 
-			<!-- Slider for eraser size -->
-			<div class="highlight-slider-container">
-			  <span class="slider-label">Highlight Opacity</span>
-			  <input type="range" min="0" max=".6" value = '0.10' step = '0.01' class="highlight-slider">
-			</div>
 
-			<!-- Slider for text size -->
-			<div class="font-slider-container">
-			  <span class="slider-label">Font Size</span>
-			  <input type="range" min="1" max="100" value = '10' class="font-slider">
-			</div>
 
-			<div class = 'colorSelector'>   
-				<span class="slider-label">Drawing color </span>
-				<input type = 'color' class = color-picker>
-			</div>
-
-			<div class = 'highlightSelector'>
-				<span class="slider-label">Highlight color</span>
-				<input type = 'color' value = '#FFFF00' class = highlight-picker>
-			</div>
-	  
 			<!-- Clear all drawings button -->
 			<div id = "actionButtons">
-				<button onclick="undo()" title = 'Undo'><img src = './Assets/undo-circular-arrow.png' class = 'actionImg'></button>
-				<button onclick="redo()" title = 'Redo'><img src = './Assets/redo-arrow-symbol.png' class = 'actionImg'></button>
+
+				<button title = 'Undo'><img src = './Assets/undo-circular-arrow.png' class = 'actionImg'></button>
+				<button title = 'Redo'><img src = './Assets/redo-arrow-symbol.png' class = 'actionImg'></button>
 				<button class="clear-btn" title = 'Delete all'><img src = './Assets/trash-can.png' class = 'actionImg'></button>
 				<button class="screenshot-btn" title = 'Screenshot'><img src = './Assets/screenshot-icon.png' class = 'actionImg'></button>
+				<button class="open-sites-btn" title = 'View Saved Sites'><img src = './Assets/www.png' class = 'actionImg'></button>
+				<a href = "https://buymeacoffee.com/sethlangendoen" target="_blank"><button class="donate" title = 'support' ><img src = './Assets/heart.png' class = 'actionImg'></button></a>
+
 			</div>
+
+			<button class="save-notes-btn"><img class = 'noteImg' class = 'actionImg' src = './Assets/notes.png'>   1 </button>
+			<button class="save-notes-btn2"><img class = 'noteImg' class = 'actionImg' src = './Assets/notes.png'>   2</button>
 
 			<!-- <button class="restore-notes-btn" onclick="restoreCanvasState()">Restore Notes</button> -->
 			<div>
 
-
 			<!-- <button class="restore-notes-btn">Save Note</button>
 			<input type = 'text' /> -->
+  
+			<!-- <button class="save-notes-btn">Save Note</button> -->
+			<!-- <div id = 'notePresetButtons'>
+			<button class="save-notes-btn"><img class = 'noteImg' src = './Assets/notes.png'>   Preset 1 </button>
+			<button class="save-notes-btn2"><img class = 'noteImg' src = './Assets/notes.png'>   Preset 2</button>
+
+			</div> -->
 
 
-			<button class="restore-notes-btn">Restore Note</button>
-			<!-- <form>
+			<!-- <button id="savePdf">Save as PDF</button> -->
+			<!-- Sidebar to hold the dropdown links -->
+			<div id="sidebar" class="sidebar">
+				<h2>My Noted Sites</h2>
+				<button id="close-sidebar" class="close-btn">Close</button>
+				<p>Hello???</p>
+				<div id="links-container">
+				<!-- Dynamically add dropdown links here -->
+				</div>
+			</div>
 
-				<input type="radio" id="option1" name="option" value="Option 1">
-				<label for="option1">Option 1</label><br>
-				<input type="radio" id="option2" name="option" value="Option 2">
-				<label for="option2">Option 2</label><br>
-				<input type="radio" id="option3" name="option" value="Option 3">
-				<label for="option3">Option 3</label>
-			  </form>
-			   -->
-			  
+
+
 			</div>
 			<!-- include two or three spots for different canvases to reload, canvases are deletable. -->
 
